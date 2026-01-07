@@ -1,11 +1,11 @@
-
 /* script.js */
 const form = document.getElementById("employeeForm");
 const tableBody = document.getElementById("employeeTableBody");
 const toggleFormBtn = document.getElementById("toggleFormBtn");
 const formContainer = document.getElementById("formContainer");
 
-const API_URL = "http://localhost:3000/employees";
+// ✅ LIVE API URL
+const API_URL = "https://test-1-vq2t.onrender.com/employees";
 
 // Toggle form visibility
 toggleFormBtn.addEventListener("click", () => {
