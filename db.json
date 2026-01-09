@@ -1,18 +1,11 @@
 {
   "employees": [
     {
-      "id": "ead9",
-      "fullName": "ad",
-      "email": "fadilafk@code.edu.az",
-      "age": 98,
-      "price": 123
-    },
-    {
-      "id": "24a0",
+      "id": "485d",
       "fullName": "Fadile Karimli",
       "email": "fadokarim15@gmail.com",
       "age": 21,
-      "price": 213
+      "salary": 12334
     }
   ]
 }

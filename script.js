@@ -1,34 +1,15 @@
-/* script.js */
 const form = document.getElementById("employeeForm");
 const tableBody = document.getElementById("employeeTableBody");
-const toggleFormBtn = document.getElementById("toggleFormBtn");
-const formContainer = document.getElementById("formContainer");
 
-// ✅ LIVE API URL
-const API_URL = "https://test-1-vq2t.onrender.com/employees";
+const API_URL = "http://localhost:3000/employees";
 
-// Toggle form visibility
-toggleFormBtn.addEventListener("click", () => {
-  formContainer.classList.toggle("active");
-  
-  if (formContainer.classList.contains("active")) {
-    toggleFormBtn.textContent = "Cancel";
-    document.getElementById("fullName").focus();
-  } else {
-    toggleFormBtn.textContent = "New Employee";
-    form.reset();
-  }
-});
-
-// Fetch & show employees
+// GET employees
 async function getEmployees() {
   try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
-    renderTable(data);
-  } catch (error) {
-    console.error("Error fetching employees:", error);
-    tableBody.innerHTML = '<tr><td colspan="6" class="empty-state">Unable to load employees. Please check if the server is running.</td></tr>';
+    const res = await axios.get(API_URL);
+    renderTable(res.data);
+  } catch (err) {
+    console.error(err);
   }
 }
 
@@ -36,7 +17,11 @@ function renderTable(employees) {
   tableBody.innerHTML = "";
 
   if (employees.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="6" class="empty-state">No employees yet. Click "New Employee" to add one.</td></tr>';
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="6">No employees yet</td>
+      </tr>
+    `;
     return;
   }
 
@@ -47,64 +32,58 @@ function renderTable(employees) {
         <td>${emp.fullName}</td>
         <td>${emp.email}</td>
         <td>${emp.age}</td>
-        <td>${emp.price}</td>
+        <td>${emp.salary}</td>
         <td>
-          <button class="delete-btn" onclick="deleteEmployee('${emp.id}')">Delete</button>
+          <button class="delete-btn" onclick="deleteEmployee('${emp.id}')">
+            Delete
+          </button>
         </td>
       </tr>
     `;
   });
 }
 
-// Create employee
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+// create
 
-  const employee = {
+form.addEventListener("submit" , async (e)=>{
+e.preventDefault();
+
+
+    const employee = {
     fullName: fullName.value,
-    email: email.value,
-    age: Number(age.value),
-    price: Number(price.value)
-  };
+    email : email.value,
+    age : Number(age.value),
+    salary : Number(salary.value)
+    }
 
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(employee)
-    });
+    try {
+      await axios.post(API_URL , employee)
+      form.reset();
+      getEmployees();
 
-    form.reset();
-    formContainer.classList.remove("active");
-    toggleFormBtn.textContent = "New Employee";
-    getEmployees();
-  } catch (error) {
-    console.error("Error adding employee:", error);
-    alert("Failed to add employee. Please try again.");
-  }
-});
+    } catch (error) {
+      alert("dogru deil!")
+    }
+})
 
-// Delete employee
+
+
+   
+
+
+// DELETE employee
 async function deleteEmployee(id) {
-  if (!confirm("Are you sure you want to delete this employee?")) {
-    return;
-  }
+  if (!confirm("Delete this employee?")) return;
 
   try {
-    await fetch(`${API_URL}/${id}`, {
-      method: "DELETE"
-    });
-    
+    await axios.delete(`${API_URL}/${id}`);
     getEmployees();
-  } catch (error) {
-    console.error("Error deleting employee:", error);
-    alert("Failed to delete employee. Please try again.");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to delete employee");
   }
 }
 
-// Make deleteEmployee globally accessible
 window.deleteEmployee = deleteEmployee;
 
 // First load

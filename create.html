@@ -12,14 +12,13 @@
   <div class="container">
     <h1>Employee Management</h1>
 
-    <button class="add-employee-btn" id="toggleFormBtn">New Employee</button>
 
     <div class="form-container" id="formContainer">
       <form id="employeeForm" class="form">
         <input type="text" id="fullName" placeholder="Full Name" required />
         <input type="email" id="email" placeholder="Email" required />
         <input type="number" id="age" placeholder="Age" min="18" max="65" required />
-        <input type="number" id="price" placeholder="Price" required />
+        <input type="number" id="salary" placeholder="Salary" required />
         <button type="submit">Add Employee</button>
       </form>
     </div>
@@ -44,6 +43,8 @@
     </table>
   </div>
 
-  <script src="./script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./script.js"></script>
+
 </body>
 </html>
